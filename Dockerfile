@@ -5,7 +5,7 @@ FROM            debian:8.3
 MAINTAINER      "Vaibhav Todi"      <vaibhavtodi1989@gmail.com>
 
 # Specifing the Label
-LABEL           Description="Squirrel Mail Docker image"                                                     \
+LABEL           Description="Roundcube Docker image"                                                         \
                 Version="1.0"
 
 # Setting the working directory
@@ -25,8 +25,11 @@ RUN             apt-get             update                                      
         &&      DEBIAN_FRONTEND=noninteractive apt-get   install  -y  wget  curl  vim  apache2               \
                                                                       libapache2-mod-php5                    \
         &&      mkdir               /var/lock/apache2                                                        \
-        &&      tar                 -xvzf      squirrelmail-1.4.22.tar.gz                                    \
-        &&      rm                  -f         squirrelmail-1.4.22.tar.gz
+        &&      wget                https://downloads.sourceforge.net/project/roundcubemail/roundcubemail/1.1.4/roundcubemail-1.1.4-complete.tar.gz       \
+        &&      tar                 -xvzf      roundcubemail-1.1.4-complete.tar.gz                           \
+        &&      rm                  -f         roundcubemail-1.1.4-complete.tar.gz                           \
+        &&      mv                  /root/roundcubemail-1.1.4           /root/roundcube                      \
+        &&      mv                  /root/roundcube                     /etc
 
 # Clearing the Docker image
 RUN             apt-get             -y         clean                                                         \
@@ -40,7 +43,7 @@ COPY            entrypoint.sh       /entrypoint.sh
 EXPOSE          80
 
 # Mounting the log & data directory
-VOLUME          ["/etc/squirrelmail, /etc/apache2, /var/log/apache2, /var/log/squirrelmail"]
+VOLUME          ["/etc/roundcube, /etc/apache2, /var/log/apache2, /var/log/roundcube"]
 
 # Specifing the entrypoint
 CMD             ["/entrypoint.sh"]
