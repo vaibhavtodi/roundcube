@@ -20,7 +20,7 @@ ENV             APACHE_RUN_USER  = www-data               \
                 APACHE_LOCK_DIR  = /var/lock/apache2      \
                 APACHE_LOG_DIR   = /var/log/apache2       \
 
-# Downloading & Installing the squirrelmail Package
+# Downloading & Installing the Roundcube Package
 RUN             apt-get             update                                                                   \
         &&      DEBIAN_FRONTEND=noninteractive apt-get   install  -y  wget  curl  vim  apache2               \
                                                                       libapache2-mod-php5                    \
