@@ -29,12 +29,17 @@ RUN             apt-get             update                                      
         &&      tar                 -xvzf      roundcubemail-1.1.4-complete.tar.gz                           \
         &&      rm                  -f         roundcubemail-1.1.4-complete.tar.gz                           \
         &&      mv                  /root/roundcubemail-1.1.4           /root/roundcube                      \
-        &&      mv                  /root/roundcube                     /etc
+        &&      mv                  /root/roundcube                     /etc                                 \
+        &&      touch               /etc/apache2/sites-enabled/roundcube.conf                                \
+        &&      ln                  -s         /etc/apache2/sites-enabled/roundcube.conf      roundcube.conf
 
 # Clearing the Docker image
 RUN             apt-get             -y         clean                                                         \
         &&      rm                  -rf        /var/lib/apt/lists/*                                          \
         &&      rm                  -rf        /var/cache/*
+
+# Copying the roundcube apache2 config file
+COPY            roundcube.conf      /etc/apache2/sites-enabled/roundcube.conf
 
 # Copying the entrypoint.sh
 COPY            entrypoint.sh       /entrypoint.sh
